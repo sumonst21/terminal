@@ -120,6 +120,7 @@ UiaEngine::~UiaEngine()
 
     // assume selection has not changed
     _selectionChanged = false;
+    saveSelection.release();
     return S_OK;
 }
 
@@ -190,7 +191,7 @@ UiaEngine::~UiaEngine()
 
     if (_isEnabled)
     {
-        // TODO CARLOS: add more events here
+        // TODO GH #2447: add more events here
         somethingToDo = _selectionChanged;
 
         if (somethingToDo)
@@ -215,13 +216,6 @@ UiaEngine::~UiaEngine()
     if (_isEnabled)
     {
         _isPainting = false;
-
-        // Fire UIA events here
-        if (_selectionChanged)
-        {
-            _dispatcher->SignalUia(ConsoleUiaEvent::SelectionChanged);
-            _selectionChanged = false;
-        }
     }
 
     return S_OK;
@@ -237,7 +231,6 @@ UiaEngine::~UiaEngine()
 // - S_FALSE since we do nothing.
 [[nodiscard]] HRESULT UiaEngine::Present() noexcept
 {
-    // DELETEME
     return S_FALSE;
 }
 
@@ -261,7 +254,7 @@ UiaEngine::~UiaEngine()
 // - S_FALSE since we do nothing
 [[nodiscard]] HRESULT UiaEngine::PaintBackground() noexcept
 {
-    return S_OK;
+    return S_FALSE;
 }
 
 // Routine Description:
@@ -276,7 +269,7 @@ UiaEngine::~UiaEngine()
                                                  COORD const /*coord*/,
                                                  const bool /*trimLeft*/) noexcept
 {
-    return S_OK;
+    return S_FALSE;
 }
 
 // Routine Description:
@@ -294,7 +287,7 @@ UiaEngine::~UiaEngine()
                                                       size_t const /*cchLine*/,
                                                       COORD const /*coordTarget*/) noexcept
 {
-    return S_OK;
+    return S_FALSE;
 }
 
 // Routine Description:
@@ -308,6 +301,15 @@ UiaEngine::~UiaEngine()
 // - S_FALSE
 [[nodiscard]] HRESULT UiaEngine::PaintSelection(const SMALL_RECT /*rect*/) noexcept
 {
+    RETURN_HR_IF(E_INVALIDARG, !_isPainting); // invalid to end paint when we're not painting
+    RETURN_HR_IF(S_FALSE, !_isEnabled); // don't paint if not enabled
+
+    // Fire UIA events here
+    if (_selectionChanged)
+    {
+        _dispatcher->SignalUia(ConsoleUiaEvent::SelectionChanged);
+        _selectionChanged = false;
+    }
     return S_OK;
 }
 
@@ -319,7 +321,7 @@ UiaEngine::~UiaEngine()
 // - S_OK or relevant DirectX error.
 [[nodiscard]] HRESULT UiaEngine::PaintCursor(const IRenderEngine::CursorOptions& /*options*/) noexcept
 {
-    return S_OK;
+    return S_FALSE;
 }
 
 // Routine Description:
@@ -351,7 +353,7 @@ UiaEngine::~UiaEngine()
 // - S_FALSE since we do nothing
 [[nodiscard]] HRESULT UiaEngine::UpdateFont(const FontInfoDesired& /*pfiFontInfoDesired*/, FontInfo& /*fiFontInfo*/) noexcept
 {
-    // TODO CARLOS: changing the size may be useful
+    // TODO GH #2447: changing the size may be useful
     return S_FALSE;
 }
 
@@ -364,7 +366,7 @@ UiaEngine::~UiaEngine()
 // - S_OK
 [[nodiscard]] HRESULT UiaEngine::UpdateDpi(int const /*iDpi*/) noexcept
 {
-    // TODO CARLOS: changing the size may be useful
+    // TODO GH #2447: changing the size may be useful
     return S_FALSE;
 }
 
@@ -377,7 +379,7 @@ UiaEngine::~UiaEngine()
 // - HRESULT S_OK
 [[nodiscard]] HRESULT UiaEngine::UpdateViewport(const SMALL_RECT /*srNewViewport*/) noexcept
 {
-    // TODO CARLOS: not sure how to handle resizing just yet
+    // TODO GH #2447: not sure how to handle resizing just yet
     return S_FALSE;
 }
 
@@ -393,7 +395,7 @@ UiaEngine::~UiaEngine()
                                                  FontInfo& /*pfiFontInfo*/,
                                                  int const /*iDpi*/) noexcept
 {
-    // TODO CARLOS: changing the size may be useful
+    // TODO GH #2447: changing the size may be useful
     return S_FALSE;
 }
 

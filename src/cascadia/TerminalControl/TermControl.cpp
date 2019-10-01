@@ -349,19 +349,19 @@ namespace winrt::Microsoft::Terminal::TerminalControl::implementation
     // - The automation peer for our control
     Windows::UI::Xaml::Automation::Peers::AutomationPeer TermControl::OnCreateAutomationPeer()
     {
-        Windows::UI::Xaml::Automation::Peers::AutomationPeer autoPeer{ nullptr };
         try
         {
             // create a custom automation peer with this code pattern:
             // (https://docs.microsoft.com/en-us/windows/uwp/design/accessibility/custom-automation-peers)
-            auto tcapInternal = winrt::make_self<winrt::Microsoft::Terminal::TerminalControl::implementation::TermControlAutomationPeer>(*this);
-            autoPeer = *tcapInternal;
+            auto autoPeer = winrt::make_self<winrt::Microsoft::Terminal::TerminalControl::implementation::TermControlAutomationPeer>(*this);
 
-            _uiaEngine = std::make_unique<::Microsoft::Console::Render::UiaEngine>(tcapInternal.get());
+            _uiaEngine = std::make_unique<::Microsoft::Console::Render::UiaEngine>(autoPeer.get());
             _renderer->AddRenderEngine(_uiaEngine.get());
+
+            return *autoPeer;
         }
         CATCH_LOG();
-        return autoPeer;
+        return nullptr;
     }
 
     ::Microsoft::Console::Types::IUiaData* TermControl::GetUiaData() const
@@ -1195,7 +1195,7 @@ namespace winrt::Microsoft::Terminal::TerminalControl::implementation
     }
 
     // Method Description:
-    // - Event handler for the GotFocus event. This is used to...
+    // - Event handler for the GotFocus event. This is used to:
     //   - enable accessibility notifications for this TermControl
     //   - start blinking the cursor when the window is focused
     void TermControl::_GotFocusHandler(Windows::Foundation::IInspectable const& /* sender */,
@@ -1219,7 +1219,7 @@ namespace winrt::Microsoft::Terminal::TerminalControl::implementation
     }
 
     // Method Description:
-    // - Event handler for the LostFocus event. This is used to...
+    // - Event handler for the LostFocus event. This is used to:
     //   - disable accessibility notifications for this TermControl
     //   - hide and stop blinking the cursor when the window loses focus.
     void TermControl::_LostFocusHandler(Windows::Foundation::IInspectable const& /* sender */,

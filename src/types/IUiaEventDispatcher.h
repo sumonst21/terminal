@@ -17,6 +17,8 @@ Author(s):
 
 namespace Microsoft::Console::Types
 {
+    // As a console application, we have a limited set of events
+    // that are useful to fire a UIA Event for. These are listed here.
     enum class ConsoleUiaEvent
     {
         SelectionChanged,
