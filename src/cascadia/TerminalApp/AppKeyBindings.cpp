@@ -404,6 +404,15 @@ namespace winrt::TerminalApp::implementation
             _AdjustFontSizeHandlers(*this, *eventArgs);
             return eventArgs->Handled();
         }
+        case ShortcutAction::CopyText:
+        {
+            auto args = winrt::make_self<KeyboardSelectionArgs>();
+            args->Direction(Direction::Left);
+            args->Mode(SelectionExpansionMode::Cell);
+            auto eventArgs = winrt::make_self<ActionEventArgs>(*args);
+            _CopyTextHandlers(*this, *eventArgs);
+            return eventArgs->Handled();
+        }
         default:
             return false;
         }

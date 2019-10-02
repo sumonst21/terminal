@@ -21,6 +21,14 @@ namespace TerminalApp
         Down
     };
 
+	enum SelectionExpansionMode
+    {
+        Cell = 0,
+        Word,
+        Line,
+        Viewport
+    };
+
     [default_interface] runtimeclass ActionEventArgs : IActionEventArgs
     {
         ActionEventArgs(IActionArgs args);
@@ -54,5 +62,11 @@ namespace TerminalApp
     [default_interface] runtimeclass AdjustFontSizeArgs : IActionArgs
     {
         Int32 Delta { get; };
+    };
+
+	[default_interface] runtimeclass KeyboardSelectionArgs : IActionArgs
+    {
+        Direction Direction { get; };
+        SelectionExpansionMode Mode { get; };
     };
 }

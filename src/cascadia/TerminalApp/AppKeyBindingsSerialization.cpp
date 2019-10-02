@@ -71,6 +71,21 @@ static constexpr std::string_view MoveFocusRightKey{ "moveFocusRight" };
 static constexpr std::string_view MoveFocusUpKey{ "moveFocusUp" };
 static constexpr std::string_view MoveFocusDownKey{ "moveFocusDown" };
 
+static constexpr std::string_view MoveSelectionAnchorUp             { "moveSelectionAnchorUp" };
+static constexpr std::string_view MoveSelectionAnchorDown           { "moveSelectionAnchorDown" };
+static constexpr std::string_view MoveSelectionAnchorLeft           { "moveSelectionAnchorLeft" };
+static constexpr std::string_view MoveSelectionAnchorRight          { "moveSelectionAnchorRight" };
+static constexpr std::string_view MoveSelectionAnchorUpOneScreen    { "moveSelectionAnchorUpOneScreen" };
+static constexpr std::string_view MoveSelectionAnchorDownOneScreen  { "moveSelectionAnchorDownOneScreen" };
+static constexpr std::string_view MoveSelectionAnchorToLeftMargin   { "moveSelectionAnchorToLeftMargin" };
+static constexpr std::string_view MoveSelectionAnchorToRightMargin  { "moveSelectionAnchorToRightMargin" };
+static constexpr std::string_view MoveSelectionAnchorUpByWord       { "moveSelectionAnchorUpByWord" };
+static constexpr std::string_view MoveSelectionAnchorDownByWord     { "moveSelectionAnchorDownByWord" };
+static constexpr std::string_view MoveSelectionAnchorLeftByWord     { "moveSelectionAnchorLeftByWord" };
+static constexpr std::string_view MoveSelectionAnchorRightByWord    { "moveSelectionAnchorRightByWord" };
+static constexpr std::string_view MoveSelectionAnchorToBufferStart  { "moveSelectionAnchorToBufferStart" };
+static constexpr std::string_view MoveSelectionAnchorToBufferEnd    { "moveSelectionAnchorToBufferEnd" };
+
 // Specifically use a map here over an unordered_map. We want to be able to
 // iterate over these entries in-order when we're serializing the keybindings.
 // HERE BE DRAGONS:
@@ -128,6 +143,20 @@ static const std::map<std::string_view, ShortcutAction, std::less<>> commandName
     { MoveFocusDownKey, ShortcutAction::MoveFocusDown },
     { OpenSettingsKey, ShortcutAction::OpenSettings },
     { UnboundKey, ShortcutAction::Invalid },
+    { MoveSelectionAnchorUp             , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorDown           , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorLeft           , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorRight          , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorUpOneScreen    , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorDownOneScreen  , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorToLeftMargin   , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorToRightMargin  , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorUpByWord       , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorDownByWord     , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorLeftByWord     , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorRightByWord    , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorToBufferStart  , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorToBufferEnd    , ShortcutAction::KeyboardSelection },
 };
 
 // Function Description:

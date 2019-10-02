@@ -12,6 +12,7 @@
 #include "ResizePaneArgs.g.h"
 #include "MoveFocusArgs.g.h"
 #include "AdjustFontSizeArgs.g.h"
+#include "KeyboardSelectionArgs.g.h"
 
 #include "../../cascadia/inc/cppwinrt_utils.h"
 
@@ -66,6 +67,13 @@ namespace winrt::TerminalApp::implementation
     {
         AdjustFontSizeArgs() = default;
         GETSET_PROPERTY(int32_t, Delta, 0);
+    };
+
+    struct KeyboardSelectionArgs : public KeyboardSelectionArgsT<KeyboardSelectionArgs>
+    {
+        KeyboardSelectionArgs() = default;
+        GETSET_PROPERTY(TerminalApp::Direction, Direction, TerminalApp::Direction::Left);
+        GETSET_PROPERTY(TerminalApp::SelectionExpansionMode, Mode, TerminalApp::SelectionExpansionMode::Cell);
     };
 }
 

@@ -140,6 +140,22 @@ public:
     void SetEndSelectionPosition(const COORD position);
     void SetBoxSelection(const bool isEnabled) noexcept;
 
+    enum class Direction
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    };
+    enum class SelectionExpansionMode
+    {
+        Cell,
+        Word,
+        Line,
+        Viewport
+    };
+    void KeyboardSelection(Direction dir, SelectionExpansionMode mode);
+
     const TextBuffer::TextAndColor RetrieveSelectedTextFromBuffer(bool trimTrailingWhitespace) const;
 #pragma endregion
 
@@ -161,12 +177,6 @@ private:
     bool _snapOnInput;
 
 #pragma region Text Selection
-    enum class SelectionExpansionMode
-    {
-        Cell,
-        Word,
-        Line
-    };
     enum class DelimiterClass
     {
         ControlChar,
@@ -236,5 +246,10 @@ private:
     std::tuple<COORD, COORD> _PreprocessSelectionCoords() const;
     SMALL_RECT _GetSelectionRow(const SHORT row, const COORD higherCoord, const COORD lowerCoord) const;
     void _ExpandSelectionRow(SMALL_RECT& selectionRow) const;
+
+    void _UpdateAnchorByCell(Direction dir);
+    void _UpdateAnchorByWord(Direction dir);
+    void _UpdateAnchorByLine(Direction dir);
+    void _UpdateAnchorByViewport(Direction dir);
 #pragma endregion
 };
