@@ -53,7 +53,21 @@ namespace TerminalApp
         MoveFocusRight,
         MoveFocusUp,
         MoveFocusDown,
-        OpenSettings
+        OpenSettings,
+        MoveSelectionAnchorUp,
+        MoveSelectionAnchorDown,
+        MoveSelectionAnchorLeft,
+        MoveSelectionAnchorRight,
+        MoveSelectionAnchorUpOneScreen,
+        MoveSelectionAnchorDownOneScreen,
+        MoveSelectionAnchorToLeftMargin,
+        MoveSelectionAnchorToRightMargin,
+        MoveSelectionAnchorUpByWord,
+        MoveSelectionAnchorDownByWord,
+        MoveSelectionAnchorLeftByWord,
+        MoveSelectionAnchorRightByWord,
+        MoveSelectionAnchorToBufferStart,
+        MoveSelectionAnchorToBufferEnd
     };
 
     [default_interface] runtimeclass AppKeyBindings : Microsoft.Terminal.Settings.IKeyBindings
@@ -87,5 +101,6 @@ namespace TerminalApp
         event Windows.Foundation.TypedEventHandler<AppKeyBindings, ActionEventArgs> OpenSettings;
         event Windows.Foundation.TypedEventHandler<AppKeyBindings, ActionEventArgs> ResizePane;
         event Windows.Foundation.TypedEventHandler<AppKeyBindings, ActionEventArgs> MoveFocus;
+        event Windows.Foundation.TypedEventHandler<AppKeyBindings, ActionEventArgs> KeyboardSelection;
     }
 }

@@ -198,4 +198,16 @@ namespace winrt::TerminalApp::implementation
             args.Handled(true);
         }
     }
+
+    void TerminalPage::_HandleKeyboardSelection(const IInspectable& /*sender*/,
+                                             const TerminalApp::ActionEventArgs& args)
+    {
+        if (const auto& realArgs = args.ActionArgs().try_as<TerminalApp::KeyboardSelectionArgs>())
+        {
+            const auto termControl = _GetFocusedControl();
+            const auto handled = termControl.MoveSelectionAnchor(realArgs.Direction(), realArgs.Mode());
+            args.Handled(handled);
+            termControl.AdjustFontSize(realArgs.Delta());
+        }
+    }
 }

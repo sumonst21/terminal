@@ -156,7 +156,7 @@ static const std::map<std::string_view, ShortcutAction, std::less<>> commandName
     { MoveSelectionAnchorLeftByWord     , ShortcutAction::KeyboardSelection },
     { MoveSelectionAnchorRightByWord    , ShortcutAction::KeyboardSelection },
     { MoveSelectionAnchorToBufferStart  , ShortcutAction::KeyboardSelection },
-    { MoveSelectionAnchorToBufferEnd    , ShortcutAction::KeyboardSelection },
+    { MoveSelectionAnchorToBufferEnd    , ShortcutAction::KeyboardSelection }
 };
 
 // Function Description:

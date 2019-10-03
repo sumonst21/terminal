@@ -93,6 +93,20 @@ private:                                              \
     {                                                                 \
     };
 
+// Use this macro to quick implement both the getter and setter for a property.
+// This should only be used for simple types where there's no logic in the
+// getter/setter beyond just accessing/updating the value.
+#define CASE_KEYBOARD_SELECTION(action, dir, mode)              \
+case ShortcutAction::##action:                                  \
+{                                                               \
+    auto args = winrt::make_self<KeyboardSelectionArgs>();      \
+    args->Direction(Direction::##dir);                          \
+    args->Mode(SelectionExpansionMode::##mode);                 \
+    auto eventArgs = winrt::make_self<ActionEventArgs>(*args);  \
+    _KeyboardSelectionHandlers(*this, *eventArgs);              \
+    return eventArgs->Handled();                                \
+}
+
 // This is a helper method for deserializing a SAFEARRAY of
 // COM objects and converting it to a vector that
 // owns the extracted COM objects

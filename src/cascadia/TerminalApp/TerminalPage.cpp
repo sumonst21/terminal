@@ -553,6 +553,7 @@ namespace winrt::TerminalApp::implementation
         bindings.MoveFocus({ this, &TerminalPage::_HandleMoveFocus });
         bindings.CopyText({ this, &TerminalPage::_HandleCopyText });
         bindings.AdjustFontSize({ this, &TerminalPage::_HandleAdjustFontSize });
+        bindings.KeyboardSelection({ this, &TerminalPage::_HandleKeyboardSelection });
     }
 
     // Method Description:

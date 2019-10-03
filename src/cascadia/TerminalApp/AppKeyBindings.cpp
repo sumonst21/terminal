@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "AppKeyBindings.h"
 #include "KeyChordSerialization.h"
+#include "../cascadia/inc/cppwinrt_utils.h"
 
 #include "AppKeyBindings.g.cpp"
 
@@ -404,15 +405,22 @@ namespace winrt::TerminalApp::implementation
             _AdjustFontSizeHandlers(*this, *eventArgs);
             return eventArgs->Handled();
         }
-        case ShortcutAction::CopyText:
-        {
-            auto args = winrt::make_self<KeyboardSelectionArgs>();
-            args->Direction(Direction::Left);
-            args->Mode(SelectionExpansionMode::Cell);
-            auto eventArgs = winrt::make_self<ActionEventArgs>(*args);
-            _CopyTextHandlers(*this, *eventArgs);
-            return eventArgs->Handled();
-        }
+
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorUp, Up, Cell);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorDown, Down, Cell);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorLeft, Left, Cell);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorRight, Right, Cell);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorUpOneScreen, Up, Viewport);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorDownOneScreen, Down, Viewport);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorToLeftMargin, Left, Viewport);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorToRightMargin, Right, Viewport);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorUpByWord, Up, Word);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorDownByWord, Down, Word);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorLeftByWord, Left, Word);
+            CASE_KEYBOARD_SELECTION(MoveSelectionAnchorRightByWord, Right, Word);
+            //CASE_KEYBOARD_SELECTION(MoveSelectionAnchorToBufferStart, Up, Buffer);
+            //CASE_KEYBOARD_SELECTION(MoveSelectionAnchorToBufferEnd, Up, Buffer);
+
         default:
             return false;
         }
