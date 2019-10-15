@@ -182,6 +182,8 @@ UiaEngine::UiaEngine(IUiaEventDispatcher* dispatcher) :
 // - S_OK if we started to paint. S_FALSE if we didn't need to paint.
 [[nodiscard]] HRESULT UiaEngine::StartPaint() noexcept
 {
+    RETURN_HR_IF(S_FALSE, !_isEnabled);
+
     // If there's nothing to do, quick return
     bool somethingToDo = false;
 
@@ -196,7 +198,7 @@ UiaEngine::UiaEngine(IUiaEventDispatcher* dispatcher) :
         }
     }
 
-    return somethingToDo ? S_OK : S_FALSE;
+    return S_OK;
 }
 
 // Routine Description:
