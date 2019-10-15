@@ -19,11 +19,7 @@ UiaEngine::UiaEngine(IUiaEventDispatcher* dispatcher) :
     _selectionChanged{ false },
     _isEnabled{ true },
     _prevSelection{},
-    RenderEngineBase() {}
-
-// Routine Description:
-// - Destroys an instance of the UIA engine
-UiaEngine::~UiaEngine()
+    RenderEngineBase()
 {
 }
 
@@ -264,7 +260,7 @@ UiaEngine::~UiaEngine()
 // - coord - Character coordinate position in the cell grid
 // - fTrimLeft - Whether or not to trim off the left half of a double wide character
 // Return Value:
-// - S_OK or relevant DirectX error
+// - S_FALSE
 [[nodiscard]] HRESULT UiaEngine::PaintBufferLine(std::basic_string_view<Cluster> const /*clusters*/,
                                                  COORD const /*coord*/,
                                                  const bool /*trimLeft*/) noexcept
@@ -318,7 +314,7 @@ UiaEngine::~UiaEngine()
 // Arguments:
 // - options - Packed options relevant to how to draw the cursor
 // Return Value:
-// - S_OK or relevant DirectX error.
+// - S_FALSE
 [[nodiscard]] HRESULT UiaEngine::PaintCursor(const IRenderEngine::CursorOptions& /*options*/) noexcept
 {
     return S_FALSE;
@@ -372,7 +368,6 @@ UiaEngine::~UiaEngine()
 
 // Method Description:
 // - This method will update our internal reference for how big the viewport is.
-//      Does nothing for DX.
 // Arguments:
 // - srNewViewport - The bounds of the new viewport.
 // Return Value:
@@ -408,7 +403,7 @@ UiaEngine::~UiaEngine()
 // - Rectangle describing dirty area in characters.
 [[nodiscard]] SMALL_RECT UiaEngine::GetDirtyRectInChars() noexcept
 {
-    return {};
+    return Viewport::Empty().ToInclusive();
 }
 
 // Routine Description:
@@ -416,7 +411,7 @@ UiaEngine::~UiaEngine()
 // Arguments:
 // - pFontSize - Filled with the font size.
 // Return Value:
-// - S_OK
+// - S_FALSE
 [[nodiscard]] HRESULT UiaEngine::GetFontSize(_Out_ COORD* const /*pFontSize*/) noexcept
 {
     return S_FALSE;
@@ -428,7 +423,7 @@ UiaEngine::~UiaEngine()
 // - glyph - The glyph run to process for column width.
 // - pResult - True if it should take two columns. False if it should take one.
 // Return Value:
-// - S_OK or relevant DirectWrite error.
+// - S_FALSE
 [[nodiscard]] HRESULT UiaEngine::IsGlyphWideByFont(const std::wstring_view /*glyph*/, _Out_ bool* const /*pResult*/) noexcept
 {
     return S_FALSE;
