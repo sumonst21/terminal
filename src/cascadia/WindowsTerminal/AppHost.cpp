@@ -16,9 +16,10 @@ using namespace ::Microsoft::Console::Types;
 
 AppHost::AppHost() noexcept :
     _app{},
+    _logic {},
     _window{ nullptr }
 {
-    _useNonClientArea = _app.GetShowTabsInTitlebar();
+    _useNonClientArea = _logic.GetShowTabsInTitlebar();
 
     if (_useNonClientArea)
     {
@@ -43,6 +44,7 @@ AppHost::~AppHost()
 {
     // destruction order is important for proper teardown here
     _window = nullptr;
+    _logic = nullptr;
     _app.Close();
     _app = nullptr;
 }
@@ -67,29 +69,29 @@ void AppHost::Initialize()
         // Register our callbar for when the app's non-client content changes.
         // This has to be done _before_ App::Create, as the app might set the
         // content in Create.
-        _app.SetTitleBarContent({ this, &AppHost::_UpdateTitleBarContent });
+        _logic.SetTitleBarContent({ this, &AppHost::_UpdateTitleBarContent });
     }
 
     // Register the 'X' button of the window for a warning experience of multiple
     // tabs opened, this is consistent with Alt+F4 closing
-    _window->WindowCloseButtonClicked([this]() { _app.WindowCloseButtonClicked(); });
+    _window->WindowCloseButtonClicked([this]() { _logic.WindowCloseButtonClicked(); });
 
     // Add an event handler to plumb clicks in the titlebar area down to the
     // application layer.
-    _window->DragRegionClicked([this]() { _app.TitlebarClicked(); });
+    _window->DragRegionClicked([this]() { _logic.TitlebarClicked(); });
 
-    _app.RequestedThemeChanged({ this, &AppHost::_UpdateTheme });
+    _logic.RequestedThemeChanged({ this, &AppHost::_UpdateTheme });
 
-    _app.Create();
+    _logic.Create();
 
-    _app.TitleChanged({ this, &AppHost::AppTitleChanged });
-    _app.LastTabClosed({ this, &AppHost::LastTabClosed });
+    _logic.TitleChanged({ this, &AppHost::AppTitleChanged });
+    _logic.LastTabClosed({ this, &AppHost::LastTabClosed });
 
-    _window->UpdateTitle(_app.Title());
+    _window->UpdateTitle(_logic.Title());
 
     // Set up the content of the application. If the app has a custom titlebar,
     // set that content as well.
-    _window->SetContent(_app.GetRoot());
+    _window->SetContent(_logic.GetRoot());
     _window->OnAppInitialized();
 }
 
@@ -143,7 +145,7 @@ void AppHost::_HandleCreateWindow(const HWND hwnd, const RECT proposedRect)
     // If this fails, we'll use the default of 96.
     GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &dpix, &dpiy);
 
-    auto initialSize = _app.GetLaunchDimensions(dpix);
+    auto initialSize = _logic.GetLaunchDimensions(dpix);
 
     const short _currentWidth = Utils::ClampToShortMax(
         static_cast<long>(ceil(initialSize.X)), 1);
@@ -238,7 +240,7 @@ void AppHost::_UpdateTitleBarContent(const winrt::Windows::Foundation::IInspecta
 // - arg: the ElementTheme to use as the new theme for the UI
 // Return Value:
 // - <none>
-void AppHost::_UpdateTheme(const winrt::TerminalApp::App&, const winrt::Windows::UI::Xaml::ElementTheme& arg)
+void AppHost::_UpdateTheme(const winrt::Windows::Foundation::IInspectable&, const winrt::Windows::UI::Xaml::ElementTheme& arg)
 {
     _window->UpdateTheme(arg);
 }
