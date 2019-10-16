@@ -13,6 +13,9 @@ namespace winrt::TerminalApp::implementation
     public:
         App();
         void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs const&);
+
+    private:
+        bool _isUwp = false;
     };
 }
 
