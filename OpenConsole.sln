@@ -254,7 +254,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LocalTests_TerminalApp", "s
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winconpty", "src\winconpty\winconpty.vcxproj", "{58A03BB2-DF5A-4B66-91A0-7EF3BA01269A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsTerminalUniversalCore", "src\cascadia\WindowsTerminalUniversalCore\WindowsTerminalUniversalCore.vcxproj", "{B0AC39D6-7B40-49A9-8202-58549BAE1FB1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsTerminalUniversal", "src\cascadia\WindowsTerminalUniversal\WindowsTerminalUniversal.vcxproj", "{B0AC39D6-7B40-49A9-8202-58549BAE1FB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1537,7 +1537,6 @@ Global
 		{CA5CAD1A-9A12-429C-B551-8562EC954746} = {59840756-302F-44DF-AA47-441A9D673202}
 		{CA5CAD1A-B11C-4DDB-A4FE-C3AFAE9B5506} = {59840756-302F-44DF-AA47-441A9D673202}
 		{58A03BB2-DF5A-4B66-91A0-7EF3BA01269A} = {E8F24881-5E37-4362-B191-A3BA0ED7F4EB}
-		{B0AC39D6-7B40-49A9-8202-58549BAE1FB1} = {59840756-302F-44DF-AA47-441A9D673202}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3140B1B7-C8EE-43D1-A772-D82A7061A271}
