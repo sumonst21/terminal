@@ -36,13 +36,24 @@ steps:
     restoreDirectory: '$(Build.SourcesDirectory)/packages'
 
 - task: VSBuild@1
-  displayName: 'Build solution **\OpenConsole.sln'
+  displayName: 'Build solution **\OpenConsole.sln (no packages)'
   inputs:
     solution: '**\OpenConsole.sln'
     vsVersion: 16.0
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArgs: ${{ parameters.additionalBuildArguments }}
+    msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false;GenerateAppxPackageOnBuild=false"
+    clean: true
+    maximumCpuCount: false
+
+- task: VSBuild@1
+  displayName: 'Build solution **\OpenConsole.sln (CascadiaPackage only)'
+  inputs:
+    solution: '**\OpenConsole.sln'
+    vsVersion: 16.0
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false;GenerateAppxPackageOnBuild=true /t:Terminal\\CascadiaPackage"
     clean: true
     maximumCpuCount: false
 
