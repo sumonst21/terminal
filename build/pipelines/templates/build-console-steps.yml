@@ -54,7 +54,7 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false;GenerateAppxPackageOnBuild=true /t:Terminal\\CascadiaPackage"
-    clean: true
+    clean: false
     maximumCpuCount: false
 
 - task: PowerShell@2
