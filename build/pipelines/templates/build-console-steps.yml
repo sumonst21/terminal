@@ -42,20 +42,20 @@ steps:
     vsVersion: 16.0
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false"
+    msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false;GenerateAppxPackageOnBuild=false"
     clean: true
     maximumCpuCount: false
 
-    #- task: VSBuild@1
-    #  displayName: 'Build solution **\OpenConsole.sln (CascadiaPackage only)'
-    #  inputs:
-    #    solution: '**\OpenConsole.sln'
-    #    vsVersion: 16.0
-    #    platform: '$(BuildPlatform)'
-    #    configuration: '$(BuildConfiguration)'
-    #    msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false;GenerateAppxPackageOnBuild=true /t:Terminal\\CascadiaPackage"
-    #    clean: false
-    #    maximumCpuCount: false
+- task: VSBuild@1
+  displayName: 'Build solution **\OpenConsole.sln (CascadiaPackage only)'
+  inputs:
+    solution: '**\OpenConsole.sln'
+    vsVersion: 16.0
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    msbuildArgs: "${{ parameters.additionalBuildArguments }} /p:BuildingInsideVisualStudio=false;_WapBuildingInsideVisualStudio=false;GenerateAppxPackageOnBuild=true /t:Terminal\\CascadiaPackage"
+    clean: false
+    maximumCpuCount: false
 
 - task: PowerShell@2
   displayName: 'Check MSIX for common regressions'
